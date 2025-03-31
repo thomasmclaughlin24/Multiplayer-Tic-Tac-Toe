@@ -36,11 +36,13 @@ public class GameBoard  extends JPanel {
     }
 
     public static void AddXorOLocalMultiplayer(int row, int col){
-        if (turnNumber % 2 != 0){
-            playerTurn = "X";
-        }
-        else{
-            playerTurn = "O";
+        if (!Display.mode.getMode().equals("Play")){
+            if (turnNumber % 2 != 0){
+                playerTurn = "X";
+            }
+            else {
+                playerTurn = "O";
+            }
         }
         board[row][col] = playerTurn;
         turnNumber++;
@@ -48,17 +50,22 @@ public class GameBoard  extends JPanel {
     }
 
     public static void AddXorOBot(int row, int col){
-        board[row][col] = "X";
-        PlaceToken();
+        board[row][col] = "O";
     }
 
     public static void PlaceToken(){
         int rand_row = random.nextInt(0,3);
         int rand_col = random.nextInt(0,3);
         while(!(board[rand_row][rand_col]).equals(" ")){
+            System.out.println("Board Value: " + board[rand_row][rand_col]);
+            System.out.println("Row: " + rand_row + ", Col: " + rand_col);
             rand_row = random.nextInt(0,3);
             rand_col = random.nextInt(0,3);
         }
+        System.out.println("Board Value: " + board[rand_row][rand_col]);
+        System.out.println("Row: " + rand_row + ", Col: " + rand_col);
+        printBoard();
+        AddXorOBot(rand_row,rand_col);
     }
 
     private static int tokenCounter = 0;

@@ -12,7 +12,7 @@ public class Display {
     static File o_file = new File("src/o image.png");
     static BufferedImage x_image = null;
     static BufferedImage o_image = null;
-    static GameMode mode = new GameMode();
+    public static GameMode mode = new GameMode();
 
     public static void DisplayXandO(Graphics g) throws IOException {
         x_image = ImageIO.read(x_file);
@@ -57,13 +57,14 @@ public class Display {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println(e.getX() + ", "  + e.getY());
+                playLocal(e);
+                playLAN(e);
                 try {
                     playClicked(e);
+                    GameBoard.PlaceToken();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                playLocal(e);
-                playLAN(e);
             }
 
             public void playClicked(MouseEvent e) throws Exception {
@@ -75,13 +76,13 @@ public class Display {
             }
 
             public void playLocal(MouseEvent e){
-                if (e.getX() > 400 && e.getX() < 600 && e.getY() > 500 && e.getY() < 625){
+                if (e.getX() > 400 && e.getX() < 600 && e.getY() > 500 && e.getY() < 625 && mode.getMode().equals("Main Menu")){
                     System.out.println("Local");
                 }
             }
 
             public void playLAN(MouseEvent e){
-                if (e.getX() > 250 && e.getX() < 500 && e.getY() > 650 && e.getY() < 725){
+                if (e.getX() > 250 && e.getX() < 500 && e.getY() > 650 && e.getY() < 725 && mode.getMode().equals("Main Menu")){
                     System.out.println("LAN");
                 }
             }
@@ -156,6 +157,7 @@ public class Display {
                 }
                 if(mode.getMode().equals("Play")){
                     GameBoard.AddXorOBot(0,0);
+                    mouseMultiplayerSetup(e);
                 }
                 GameBoard.printBoard();
                 panel.repaint();
